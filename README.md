@@ -10,4 +10,4 @@ sqlite-net-pcl
 
 SQLitePCLRaw.bundle_green
 
-[alt text](https://github.com/mostafagamal68/QuickNote/blob/master/ScreenShots/Screenshot_1670272944.png?raw=true)
+![alt text](https://github.com/mostafagamal68/QuickNote/blob/master/ScreenShots/Screenshot_1670272944.png?raw=true)
