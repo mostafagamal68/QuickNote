@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuickNote.MainPage"
+             xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
+             x:DataType="viewmodel:MainPageVM"
+             xmlns:model="clr-namespace:QuickNote.Models">
+
+    <Grid
+        RowDefinitions="100,50,*"
+        ColumnDefinitions="1*,0.20*"
+        RowSpacing="0"
+        ColumnSpacing="0"
+        Padding="15">
+
+        <Image 
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Source="goodnotes_100px.png" 
+            Background="transparent">
+            <Image.Shadow>
+                <Shadow Brush="Black"
+                Offset="20,20"
+                Radius="40"
+                Opacity="0.2" />
+            </Image.Shadow>
+        </Image>
+
+        <Entry
+            Placeholder="Search notes"
+            Grid.Column="0"
+            Grid.Row="1"
+            Text="{Binding SearchText}"/>
+
+        <ImageButton
+            Grid.Row="1"
+            Grid.Column="1"
+            Source="search_100px.png"
+            Command="{Binding SearchCommand}">
+            <ImageButton.Shadow>
+                <Shadow Brush="Black"
+                Offset="20,20"
+                Radius="40"
+                Opacity="0.2" />
+            </ImageButton.Shadow>
+        </ImageButton>
+
+        <ActivityIndicator 
+            IsRunning="{Binding IsLoading}" 
+            VerticalOptions="Start"
+            HorizontalOptions="Center"
+            Grid.Row="2"
+            Grid.ColumnSpan="2"/>
+
+        <CollectionView 
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding Notes}"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:QuickNoteItem">
+                    <SwipeView Padding="0.5">
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" IconImageSource="icons8_remove.ico"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageVM}}, Path=DeleteCommand}"
+                                           CommandParameter="{Binding Id}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Frame Margin="5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageVM}}, Path=TapCommand}"
+                                        CommandParameter="{Binding Id}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid
+                                RowDefinitions="Auto,Auto"
+                                ColumnDefinitions="0.80*,0.20*">
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="Medium"
+                                    FontAttributes="Bold"
+                                    Grid.Row="0"
+                                    Grid.Column="0"/>
+
+                                <CheckBox
+                                    IsChecked="{Binding Done}"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    IsEnabled="False"/>
+
+                                <Label
+                                    Text="{Binding Description}"
+                                    FontSize="Caption"
+                                    Grid.Row="1"
+                                    Grid.Column="0"/>
+
+                                <Label
+                                    Text="{Binding Date}"
+                                    FontSize="Caption"
+                                    Grid.Row="1"
+                                    Grid.Column="1"/>
+                            </Grid>
+                        </Frame>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ImageButton
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Source="create_100px.png"
+            Command="{Binding CreateCommand}"
+            ToolTipProperties.Text="Create New Note"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            HeightRequest="80">
+            <ImageButton.Shadow>
+                <Shadow Brush="Black"
+                Offset="20,20"
+                Radius="40"
+                Opacity="0.5" />
+            </ImageButton.Shadow>
+        </ImageButton>
+        
+    </Grid>
+
+</ContentPage>

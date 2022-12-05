@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuickNote.NoteDetails"
+             Title="{Binding Title }"
+             xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
+             x:DataType="viewmodel:NoteDetailsVM">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding GoBackCommand}"/>
+    </Shell.BackButtonBehavior>
+
+    <Grid
+        RowDefinitions="100,Auto,50,*"
+        ColumnDefinitions="0.75*,0.25*"
+        RowSpacing="5"
+        ColumnSpacing="10"
+        Padding="10">
+
+        <Image 
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Source="create_100px.png" 
+            Background="transparent">
+            <Image.Shadow>
+                <Shadow Brush="Black"
+                Offset="20,20"
+                Radius="40"
+                Opacity="0.2" />
+            </Image.Shadow>
+        </Image>
+
+        <Label
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            FontSize="Medium"
+            Text="{Binding Date}"/>
+
+        <Entry
+            Placeholder="Note title"
+            Grid.Column="0"
+            Grid.Row="2"
+            Text="{Binding Name}"
+            FontSize="Large"/>
+
+        <CheckBox
+            Grid.Column="1" 
+            Grid.Row="2"
+            IsChecked="{Binding Done}"/>
+
+        <Frame
+            Grid.Row="3"
+            Grid.ColumnSpan="2">
+            <Editor 
+                Placeholder="Enter note details here" 
+                Text="{Binding Description}"
+                FontSize="Medium"
+                AutoSize="TextChanges"/>
+        </Frame>
+
+        <ActivityIndicator 
+            IsRunning="{Binding IsLoading}" 
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Grid.Row="3"
+            Grid.ColumnSpan="2"/>
+
+        <ImageButton
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Source="save_100px.png"
+            Command="{Binding SaveCommand}"
+            CommandParameter="{Binding Id}"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            HeightRequest="80">
+            <ImageButton.Shadow>
+                <Shadow Brush="Black"
+                Offset="20,20"
+                Radius="40"
+                Opacity="0.5" />
+            </ImageButton.Shadow>
+        </ImageButton>
+
+    </Grid>
+
+</ContentPage>
