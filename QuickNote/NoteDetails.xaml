@@ -11,11 +11,11 @@
     </Shell.BackButtonBehavior>
 
     <Grid
-        RowDefinitions="100,Auto,50,*"
+        RowDefinitions="100,30,50,*"
         ColumnDefinitions="0.75*,0.25*"
-        RowSpacing="5"
-        ColumnSpacing="10"
-        Padding="10">
+        RowSpacing="0"
+        ColumnSpacing="0"
+        Padding="15">
 
         <Image 
             Grid.Row="0"
@@ -40,15 +40,22 @@
 
         <Entry
             Placeholder="Note title"
-            Grid.Column="0"
             Grid.Row="2"
+            Grid.Column="0"
             Text="{Binding Name}"
             FontSize="Large"/>
 
         <CheckBox
-            Grid.Column="1" 
             Grid.Row="2"
+            Grid.Column="1" 
             IsChecked="{Binding Done}"/>
+
+        <ActivityIndicator 
+            IsRunning="{Binding IsLoading}" 
+            VerticalOptions="Start"
+            HorizontalOptions="Center"
+            Grid.Row="3"
+            Grid.ColumnSpan="2"/>
 
         <Frame
             Grid.Row="3"
@@ -60,20 +67,13 @@
                 AutoSize="TextChanges"/>
         </Frame>
 
-        <ActivityIndicator 
-            IsRunning="{Binding IsLoading}" 
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            Grid.Row="3"
-            Grid.ColumnSpan="2"/>
-
         <ImageButton
             Grid.Row="3"
             Grid.ColumnSpan="2"
             Source="save_100px.png"
             Command="{Binding SaveCommand}"
             CommandParameter="{Binding Id}"
-            HorizontalOptions="End"
+            HorizontalOptions="EndAndExpand"
             VerticalOptions="End"
             HeightRequest="80">
             <ImageButton.Shadow>
