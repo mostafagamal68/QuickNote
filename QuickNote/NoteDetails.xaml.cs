@@ -10,6 +10,13 @@ public partial class NoteDetails : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+        await (BindingContext as NoteDetailsVM).GetNote();
+    }
+
     protected override bool OnBackButtonPressed()
 	{
 		Shared.NoteId = null;

@@ -15,7 +15,7 @@
         ColumnDefinitions="0.75*,0.25*"
         RowSpacing="0"
         ColumnSpacing="0"
-        Padding="15">
+        Padding="15,5">
 
         <Image 
             Grid.Row="0"
@@ -52,20 +52,23 @@
 
         <ActivityIndicator 
             IsRunning="{Binding IsLoading}" 
-            VerticalOptions="Start"
+            VerticalOptions="Center"
             HorizontalOptions="Center"
             Grid.Row="3"
-            Grid.ColumnSpan="2"/>
+            Grid.ColumnSpan="2"
+            ZIndex="10"/>
 
-        <Frame
+        <ScrollView 
             Grid.Row="3"
             Grid.ColumnSpan="2">
-            <Editor 
-                Placeholder="Enter note details here" 
-                Text="{Binding Description}"
-                FontSize="Medium"
-                AutoSize="TextChanges"/>
-        </Frame>
+            <Frame>
+                <Editor 
+                    Placeholder="Enter note details here" 
+                    Text="{Binding Description}"
+                    FontSize="Medium"
+                    AutoSize="TextChanges"/>
+            </Frame>
+        </ScrollView>
 
         <ImageButton
             Grid.Row="3"

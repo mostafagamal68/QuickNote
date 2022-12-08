@@ -26,6 +26,16 @@
             </Image.Shadow>
         </Image>
 
+        <!--<ImageButton 
+            Grid.Row="0"
+            Grid.Column="1"
+            Source="moon_symbol_100px.png" 
+            Background="transparent"
+            HorizontalOptions="Start"
+            VerticalOptions="Start"
+            Command="{Binding SwitchCommand}">
+        </ImageButton>-->
+
         <Entry
             Placeholder="Search notes"
             Grid.Column="0"
@@ -47,10 +57,11 @@
 
         <ActivityIndicator 
             IsRunning="{Binding IsLoading}" 
-            VerticalOptions="Start"
+            VerticalOptions="Center"
             HorizontalOptions="Center"
             Grid.Row="2"
-            Grid.ColumnSpan="2"/>
+            Grid.ColumnSpan="2"
+            ZIndex="10"/>
 
         <CollectionView 
             Grid.Row="2"
@@ -62,9 +73,23 @@
                     <SwipeView Padding="0.5">
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="Delete" IconImageSource="icons8_remove.ico"
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageVM}}, Path=DeleteCommand}"
-                                           CommandParameter="{Binding Id}"/>
+
+                                <SwipeItemView
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageVM}}, Path=DeleteCommand}"
+                                    CommandParameter="{Binding .}">
+
+                                    <Grid
+                                        RowDefinitions="*"
+                                        ColumnDefinitions="*">
+                                        <Image
+                                            Grid.Row="0" 
+                                            Grid.Column="0"
+                                            Source="remove_50px.png"
+                                            VerticalOptions="CenterAndExpand"
+                                            HorizontalOptions="CenterAndExpand"/>
+                                    </Grid>
+                                </SwipeItemView>
+
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <Frame Margin="5">

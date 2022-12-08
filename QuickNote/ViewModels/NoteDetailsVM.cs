@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
 using QuickNote.Configurations;
@@ -6,7 +7,7 @@ using QuickNote.Models;
 
 namespace QuickNote.ViewModels
 {
-    //[QueryProperty("Id", "Id")]
+    [QueryProperty("Id", "Id")]
     public partial class NoteDetailsVM : ObservableObject
     {
         private readonly Database database;
@@ -14,14 +15,13 @@ namespace QuickNote.ViewModels
         public NoteDetailsVM()
         {
             database = new();
-            _ = GetNote();
         }
 
-        async Task GetNote()
+        public async Task GetNote()
         {
-            if (Shared.NoteId != null)
+            if (Id != 0)
             {
-                var note = await database.GetItemAsync((int)Shared.NoteId);
+                var note = await database.GetItemAsync(Id);
 
                 Id = note.Id;
                 Title = $"{note.Name} Details";
@@ -37,7 +37,7 @@ namespace QuickNote.ViewModels
         }
 
         [ObservableProperty]
-        int? id;
+        int id;
 
         [ObservableProperty]
         string title;
@@ -65,7 +65,7 @@ namespace QuickNote.ViewModels
             {
                 QuickNoteItem quickNote = new()
                 {
-                    Id = Id ?? 0,
+                    Id = Id,
                     Name = Name,
                     Description = Description,
                     Date = DateTime.Now,
@@ -73,6 +73,7 @@ namespace QuickNote.ViewModels
                 };
                 await database.SaveItemAsync(quickNote);
                 Shared.NoteId = null;
+                await Toast.Make("Saved Successfully!").Show();
                 await Shell.Current.GoToAsync("..", true);
             }
             else

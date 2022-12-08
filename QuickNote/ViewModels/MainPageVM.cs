@@ -1,9 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using QuickNote.Configurations;
 using QuickNote.Models;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace QuickNote.ViewModels
 {
@@ -14,7 +14,6 @@ namespace QuickNote.ViewModels
         public MainPageVM()
         {
             Notes = new();
-            //_ = Init();
         }
 
         public async Task Init()
@@ -23,7 +22,7 @@ namespace QuickNote.ViewModels
             await GetNotes();
         }
 
-        public async Task GetNotes(bool? firstInit=null)
+        public async Task GetNotes()
         {
             IsLoading = true;
             if (Notes.Count != 0)
@@ -32,7 +31,6 @@ namespace QuickNote.ViewModels
 
             }
             var notesList = await database.GetItemsAsync();
-            //Notes.AddRange(notesList);
             Notes = notesList.Select(s => new QuickNoteItem
             {
                 Id = s.Id,
@@ -52,6 +50,21 @@ namespace QuickNote.ViewModels
 
         [ObservableProperty]
         string searchText;
+
+        //[RelayCommand]
+        //void Switch()
+        //{
+        //    Preferences.Set("Theme", "Dark");
+        //    ICollection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+        //    foreach (ResourceDictionary dictionaries in mergedDictionaries)
+        //    {
+        //        var primaryFound = dictionaries.TryGetValue("Black", out var primary);
+        //        dictionaries["White"] = primary;
+
+        //    }
+
+        //    //if (primaryFound)
+        //}
 
         [RelayCommand]
         async Task Create()
@@ -77,25 +90,33 @@ namespace QuickNote.ViewModels
         }
 
         [RelayCommand]
-        async Task Delete(int Id)
+        async Task Delete(QuickNoteItem note)
         {
-            IsLoading = true;
-            var note = await database.GetItemAsync(Id);
-            var answer = await Shell.Current.DisplayAlert("Warning", $"Are you sure to delete this note ({note.Name})", "Yes", "No");
-            if (answer)
-            {
-                IsLoading = true;
-                await database.DeleteItemAsync(Id);
-                await GetNotes();
-            }
-            IsLoading = false;
+            //IsLoading = true;
+            //var note = await database.GetItemAsync(note);
+            //var answer = await Shell.Current.DisplayAlert("Warning", $"Are you sure to delete this note ({note.Name})", "Yes", "No");
+            //if (answer)
+            //{
+            //}
+            await Snackbar.Make($"Confirm to delete {note.Name} in 5 seconds", async () =>
+                {
+                    IsLoading = true;
+                    await database.DeleteItemAsync(note.Id);
+                    await GetNotes();
+                    IsLoading = false;
+                },
+                "Yes", TimeSpan.FromSeconds(5), new SnackbarOptions
+                {
+                    BackgroundColor = Colors.Red,
+                    TextColor = Colors.White,
+                }).Show();
         }
 
         [RelayCommand]
         async Task Tap(int? Id)
         {
             Shared.NoteId = Id;
-            await Shell.Current.GoToAsync(nameof(NoteDetails));
+            await Shell.Current.GoToAsync($"{nameof(NoteDetails)}", true, new Dictionary<string, object> { { "Id", Id } });
         }
     }
 }
