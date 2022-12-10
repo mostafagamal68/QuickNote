@@ -46,9 +46,14 @@ namespace QuickNote.Configurations
             return await DB.Table<QuickNoteItem>().Where(w=>w.Name.ToLower().Contains(text.ToLower())).ToListAsync();
         }
 
+        public async Task<List<QuickNoteItem>> GetItemsDoneAsync()
+        {
+            return await DB.Table<QuickNoteItem>().Where(t => t.Done == true).ToListAsync();
+        }
+
         public async Task<List<QuickNoteItem>> GetItemsNotDoneAsync()
         {
-            return await DB.Table<QuickNoteItem>().Where(t => t.Done).ToListAsync();
+            return await DB.Table<QuickNoteItem>().Where(t => t.Done == false).ToListAsync();
 
             // SQL queries are also possible
             //return await Database.QueryAsync<QuickNoteItem>("SELECT * FROM [QuickNoteItem] WHERE [Done] = 0");

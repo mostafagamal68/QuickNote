@@ -1,4 +1,6 @@
-﻿namespace QuickNote;
+﻿using QuickNote.ViewModels;
+
+namespace QuickNote;
 
 public partial class AppShell : Shell
 {

@@ -8,14 +8,14 @@
 
     <Grid
         RowDefinitions="100,50,*"
-        ColumnDefinitions="1*,0.20*"
+        ColumnDefinitions="0.15*,0.65*,0.30*"
         RowSpacing="0"
         ColumnSpacing="0"
         Padding="15">
 
         <Image 
             Grid.Row="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Source="goodnotes_100px.png" 
             Background="transparent">
             <Image.Shadow>
@@ -38,34 +38,46 @@
 
         <Entry
             Placeholder="Search notes"
-            Grid.Column="0"
+            Grid.Column="1"
             Grid.Row="1"
-            Text="{Binding SearchText}"/>
+            Text="{Binding SearchText}"
+            HorizontalTextAlignment="Start"
+            TextChanged="Entry_TextChanged"/>
+
+        <Image
+            Grid.Row="1"
+            Grid.Column="0"
+            Source="search_100px.png"/>
 
         <ImageButton
+            x:Name="SortButton" 
             Grid.Row="1"
-            Grid.Column="1"
-            Source="search_100px.png"
-            Command="{Binding SearchCommand}">
-            <ImageButton.Shadow>
-                <Shadow Brush="Black"
-                Offset="20,20"
-                Radius="40"
-                Opacity="0.2" />
-            </ImageButton.Shadow>
-        </ImageButton>
+            Grid.Column="2"
+            Source="sorting_52px.png"
+            Clicked="SortButton_Clicked"
+            HorizontalOptions="Start"
+            HeightRequest="30"/>
+
+        <ImageButton
+            x:Name="FilterButton" 
+            Grid.Row="1"
+            Grid.Column="2"
+            Source="filter_52px.png"
+            Clicked="FilterButton_Clicked"
+            HorizontalOptions="End"
+            HeightRequest="30"/>
 
         <ActivityIndicator 
             IsRunning="{Binding IsLoading}" 
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Grid.Row="2"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             ZIndex="10"/>
 
         <CollectionView 
             Grid.Row="2"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             ItemsSource="{Binding Notes}"
             SelectionMode="None">
             <CollectionView.ItemTemplate>
@@ -98,9 +110,16 @@
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageVM}}, Path=TapCommand}"
                                         CommandParameter="{Binding Id}"/>
                             </Frame.GestureRecognizers>
+                            <!--<Frame.Shadow>
+                                <Shadow Brush="Black"
+                                    Offset="50,80"
+                                    Radius="60"
+                                    Opacity="1" />    
+                            </Frame.Shadow>-->
                             <Grid
                                 RowDefinitions="Auto,Auto"
-                                ColumnDefinitions="0.80*,0.20*">
+                                ColumnDefinitions="0.80*,0.20*"
+                                Grid.ColumnSpan="3">
                                 <Label
                                     Text="{Binding Name}"
                                     FontSize="Medium"
@@ -134,7 +153,7 @@
 
         <ImageButton
             Grid.Row="2"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Source="create_100px.png"
             Command="{Binding CreateCommand}"
             ToolTipProperties.Text="Create New Note"
@@ -148,7 +167,7 @@
                 Opacity="0.5" />
             </ImageButton.Shadow>
         </ImageButton>
-        
+
     </Grid>
 
 </ContentPage>
