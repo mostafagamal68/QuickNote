@@ -60,7 +60,9 @@
 
         <ScrollView 
             Grid.Row="3"
-            Grid.ColumnSpan="2">
+            Grid.ColumnSpan="2"
+            HorizontalScrollBarVisibility="Never"
+            VerticalScrollBarVisibility="Never">
             <Frame>
                 <Editor 
                     Placeholder="Enter note details here" 

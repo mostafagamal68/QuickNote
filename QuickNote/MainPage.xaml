@@ -83,6 +83,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:QuickNoteItem">
                     <SwipeView Padding="0.5">
+                        
                         <SwipeView.RightItems>
                             <SwipeItems>
 
@@ -104,18 +105,16 @@
 
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <Frame Margin="5">
+                        
+                        <Frame
+                            Margin="5">
+
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageVM}}, Path=TapCommand}"
                                         CommandParameter="{Binding Id}"/>
                             </Frame.GestureRecognizers>
-                            <!--<Frame.Shadow>
-                                <Shadow Brush="Black"
-                                    Offset="50,80"
-                                    Radius="60"
-                                    Opacity="1" />    
-                            </Frame.Shadow>-->
+                            
                             <Grid
                                 RowDefinitions="Auto,Auto"
                                 ColumnDefinitions="0.80*,0.20*"

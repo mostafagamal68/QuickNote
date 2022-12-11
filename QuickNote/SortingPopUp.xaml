@@ -4,44 +4,49 @@
            xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
            xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
            x:DataType="viewmodel:MainPageVM"
-           x:Class="QuickNote.SortingPopUp" Size="250,450" Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
-    
-    <VerticalStackLayout>
+           x:Class="QuickNote.SortingPopUp" Size="250,400" Color="Transparent">
 
-        <StackLayout
-            Margin="10"
+    <Frame>
+
+        <VerticalStackLayout>
+
+            <StackLayout
+            Margin="0"
             Padding="15"
             RadioButtonGroup.GroupName ="SortField"
             RadioButtonGroup.SelectedValue="{Binding SelectedSortField}">
 
-            <Label Text="Select Sort Field:"/>
-            <RadioButton Content="Date"
+                <Label Text="Select Sort Field:"/>
+                <RadioButton Content="Date"
                      Value="1"/>
-            <RadioButton Content="Name"
+                <RadioButton Content="Name"
                      Value="2"/>
-            <RadioButton Content="Done"
+                <RadioButton Content="Done"
                      Value="3"/>
-        </StackLayout>
+            </StackLayout>
 
-        <StackLayout
-            Margin="10"
+            <StackLayout
+            Margin="0"
             Padding="15"
             RadioButtonGroup.GroupName ="SortType"
             RadioButtonGroup.SelectedValue="{Binding SelectedSortType}">
 
-            <Label Text="Select Sort Type:"/>
-            <RadioButton Content="Ascending"
+                <Label Text="Select Sort Type:"/>
+                <RadioButton Content="Ascending"
                      Value="1"/>
-            <RadioButton Content="Descending"
+                <RadioButton Content="Descending"
                      Value="2"/>
-        </StackLayout>
+            </StackLayout>
 
-        <Button
+            <Button
             x:Name="Apply"
             Text="Apply"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Clicked="Apply_Clicked"/>
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+
+    </Frame>
+    
 </mct:Popup>

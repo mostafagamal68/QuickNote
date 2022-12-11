@@ -4,30 +4,34 @@
            xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
            xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
            x:DataType="viewmodel:MainPageVM"
-           x:Class="QuickNote.FilteringPopUp" Size="250,250" Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
+           x:Class="QuickNote.FilteringPopUp" Size="250,250" Color="Transparent">
     
-    <VerticalStackLayout
-        Margin="10"
+    <Frame>
+
+        <VerticalStackLayout
+        Margin="0"
         Padding="15"
         RadioButtonGroup.GroupName ="FilterType"
         RadioButtonGroup.SelectedValue="{Binding SelectedFilter}">
-        <Label Text="Select Filter :"/>
-        <RadioButton Content="All"
+            <Label Text="Select Filter :"/>
+            <RadioButton Content="All"
                      Value="1"/>
-        <RadioButton Content="Done"
+            <RadioButton Content="Done"
                      Value="2"/>
-        <RadioButton Content="Not Done yet"
+            <RadioButton Content="Not Done yet"
                      Value="3"/>
-            
-        <!--<RadioButton Content="Today" />
+
+            <!--<RadioButton Content="Today" />
         <RadioButton Content="This Month"/>
         <RadioButton Content="This week"/>-->
-        <Button
+            <Button
             x:Name="Apply"
             Text="Apply"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Clicked="Apply_Clicked"/>
             <!--Command="{Binding ApplyFilterCommand}"/>-->
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+
+    </Frame>
 </mct:Popup>
