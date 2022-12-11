@@ -11,7 +11,7 @@
     </Shell.BackButtonBehavior>
 
     <Grid
-        RowDefinitions="100,30,50,*"
+        RowDefinitions="100,30,50,50,50,*"
         ColumnDefinitions="0.75*,0.25*"
         RowSpacing="0"
         ColumnSpacing="0"
@@ -45,21 +45,80 @@
             Text="{Binding Name}"
             FontSize="Large"/>
 
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            VerticalTextAlignment="Center"
+            HorizontalOptions="Start"
+            Text="Done"
+            FontSize="Medium"/>
+
         <CheckBox
             Grid.Row="2"
-            Grid.Column="1" 
+            Grid.Column="1"
+            HorizontalOptions="End"
             IsChecked="{Binding Done}"/>
 
+        <HorizontalStackLayout 
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="Start"
+            VerticalOptions="Center">
+
+            <Label
+                VerticalTextAlignment="Center"
+                Text="Reminder"
+                FontSize="Medium"/>
+
+            <Switch           
+                IsToggled="{Binding IsReminder}"/>
+            
+            <DatePicker
+                FontSize="Medium"
+                Date="{Binding ReminderDate}"/>
+
+            <TimePicker
+                FontSize="Medium"
+                Time="{Binding ReminderTime}"/>
+
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout
+            Grid.Row="4"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="Start"
+            VerticalOptions="Center">
+
+            <Label
+                Text="Repeatly"
+                VerticalTextAlignment="Center"
+                FontSize="Medium"/>
+
+            <Switch
+                IsToggled="{Binding IsReminderRepeatly}"/>
+
+            <Picker Title="Select Repeat Type">
+                <Picker.Items>
+                    <x:String>Hourly</x:String>
+                    <x:String>Daily</x:String>
+                    <x:String>Weekly</x:String>
+                    <x:String>Monthly</x:String>
+                    <x:String>Yearly</x:String>
+                </Picker.Items>
+            </Picker>
+
+        </HorizontalStackLayout>
+        
         <ActivityIndicator 
             IsRunning="{Binding IsLoading}" 
             VerticalOptions="Center"
             HorizontalOptions="Center"
-            Grid.Row="3"
+            Grid.Row="5"
             Grid.ColumnSpan="2"
             ZIndex="10"/>
 
         <ScrollView 
-            Grid.Row="3"
+            Grid.Row="5"
             Grid.ColumnSpan="2"
             HorizontalScrollBarVisibility="Never"
             VerticalScrollBarVisibility="Never">
@@ -73,7 +132,7 @@
         </ScrollView>
 
         <ImageButton
-            Grid.Row="3"
+            Grid.Row="5"
             Grid.ColumnSpan="2"
             Source="save_100px.png"
             Command="{Binding SaveCommand}"

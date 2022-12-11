@@ -52,6 +52,18 @@ namespace QuickNote.ViewModels
         string date;
 
         [ObservableProperty]
+        DateTime reminderDate;
+
+        [ObservableProperty]
+        TimeSpan reminderTime;
+
+        [ObservableProperty]
+        bool isReminder;
+
+        [ObservableProperty]
+        bool isReminderRepeatly;
+
+        [ObservableProperty]
         bool done;
 
         [ObservableProperty]
@@ -63,16 +75,20 @@ namespace QuickNote.ViewModels
             IsLoading = true;
             if (!string.IsNullOrWhiteSpace(Name))
             {
+                var ReminderDateTime = ReminderDate.Add(ReminderTime);
                 QuickNoteItem quickNote = new()
                 {
                     Id = Id,
                     Name = Name,
                     Description = Description,
                     Date = DateTime.Now,
-                    Done = Done
+                    Done = Done,
+                    ReminderDate = ReminderDateTime <= DateTime.Now ? null : ReminderDateTime
                 };
                 await database.SaveItemAsync(quickNote);
+
                 Shared.NoteId = null;
+
                 await Toast.Make("Saved Successfully!").Show();
                 await Shell.Current.GoToAsync("..", true);
             }

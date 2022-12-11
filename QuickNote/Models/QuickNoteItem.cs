@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Android.Provider;
+using SQLite;
 
 namespace QuickNote.Models
 {
@@ -11,5 +12,7 @@ namespace QuickNote.Models
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public bool Done { get; set; }
+        public DateTime? ReminderDate { get; set; }
+        public bool IsReminderRepeatly { get; set; }
     }
 }
