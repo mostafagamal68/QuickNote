@@ -84,7 +84,7 @@
                 <DataTemplate x:DataType="model:QuickNoteItem">
                     <SwipeView Padding="0.5">
                         
-                        <SwipeView.RightItems>
+                        <SwipeView.LeftItems>
                             <SwipeItems>
 
                                 <SwipeItemView
@@ -104,7 +104,7 @@
                                 </SwipeItemView>
 
                             </SwipeItems>
-                        </SwipeView.RightItems>
+                        </SwipeView.LeftItems>
                         
                         <Frame
                             Margin="5">

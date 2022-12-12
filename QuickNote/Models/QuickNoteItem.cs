@@ -12,7 +12,9 @@ namespace QuickNote.Models
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public bool Done { get; set; }
+        public bool IsReminder { get; set; }
         public DateTime? ReminderDate { get; set; }
         public bool IsReminderRepeatly { get; set; }
+        public string RepeatType { get; set; }
     }
 }

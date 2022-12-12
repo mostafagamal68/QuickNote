@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.AndroidOption;
 using QuickNote.Configurations;
 using QuickNote.Models;
 
@@ -15,6 +17,8 @@ namespace QuickNote.ViewModels
         public NoteDetailsVM()
         {
             database = new();
+            ReminderDate = DateTime.Today;
+            ReminderTime = DateTime.Now.AddMinutes(1) - ReminderDate;
         }
 
         public async Task GetNote()
@@ -34,6 +38,24 @@ namespace QuickNote.ViewModels
             {
                 Title = "New Note";
             }
+        }
+
+        TimeSpan? GetRepeatTime(string selectedRepeatType, DateTime selectedReminderDate)
+        {
+            if (selectedRepeatType == "Minutly")
+                return TimeSpan.FromMinutes(1);
+            if (selectedRepeatType == "Hourly")
+                return TimeSpan.FromHours(1);
+            else if (selectedRepeatType == "Daily")
+                return TimeSpan.FromDays(1);
+            else if (selectedRepeatType == "Weekly")
+                return TimeSpan.FromDays(7);
+            else if (selectedRepeatType == "Monthly")
+                return selectedReminderDate.AddMonths(1) - selectedReminderDate;
+            else if (selectedRepeatType == "yearly")
+                return selectedReminderDate.AddYears(1) - selectedReminderDate;
+            else
+                return null;
         }
 
         [ObservableProperty]
@@ -56,6 +78,9 @@ namespace QuickNote.ViewModels
 
         [ObservableProperty]
         TimeSpan reminderTime;
+
+        [ObservableProperty]
+        string repeatType;
 
         [ObservableProperty]
         bool isReminder;
@@ -83,9 +108,36 @@ namespace QuickNote.ViewModels
                     Description = Description,
                     Date = DateTime.Now,
                     Done = Done,
-                    ReminderDate = ReminderDateTime <= DateTime.Now ? null : ReminderDateTime
+                    IsReminder = IsReminder,
+                    ReminderDate = IsReminder && ReminderDateTime > DateTime.Now ? ReminderDateTime : null,
+                    IsReminderRepeatly = IsReminderRepeatly,
+                    RepeatType = IsReminderRepeatly ? RepeatType : ""
                 };
                 await database.SaveItemAsync(quickNote);
+
+                if(quickNote.IsReminder && quickNote.ReminderDate != null)
+                {
+                    var notification = new NotificationRequest
+                    {
+                        NotificationId = quickNote.Id,
+                        Title = quickNote.Name,
+                        Description = quickNote.Description,
+                        Schedule = new NotificationRequestSchedule
+                        {
+                            NotifyTime = quickNote.ReminderDate,
+                            NotifyRepeatInterval = GetRepeatTime(quickNote.RepeatType, (DateTime)quickNote.ReminderDate),
+                            RepeatType = IsReminderRepeatly ? NotificationRepeat.TimeInterval : NotificationRepeat.No
+                        }
+                    };
+
+                    await LocalNotificationCenter.Current.Show(notification);
+
+                }
+                else
+                {
+                    LocalNotificationCenter.Current.Cancel(quickNote.Id);
+                }
+
 
                 Shared.NoteId = null;
 

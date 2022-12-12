@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Views;
 using QuickNote.Configurations;
 using QuickNote.ViewModels;
 
@@ -21,5 +22,10 @@ public partial class NoteDetails : ContentPage
 	{
 		Shared.NoteId = null;
         return base.OnBackButtonPressed();
+    }
+
+    private async void NoteOptions_Clicked(object sender, EventArgs e)
+    {
+        await this.ShowPopupAsync(new NoteOptions());
     }
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+           xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
+           x:DataType="viewmodel:NoteDetailsVM"
+           x:Class="QuickNote.NoteOptions" Size="250,350" Color="Transparent">
+
+    <Frame>
+        <StackLayout
+            Padding="15">
+
+            <HorizontalStackLayout
+                HeightRequest="50"
+                HorizontalOptions="Start"
+                VerticalOptions="Center">
+
+                <Label
+                    Text="Done"
+                    VerticalTextAlignment="Center"
+                    FontSize="Medium"/>
+
+                <CheckBox
+                    IsChecked="{Binding Done}"/>
+
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout
+                HeightRequest="50"
+                HorizontalOptions="Start"
+                VerticalOptions="Center">
+
+                <Label
+                    x:Name="ReminderLabel"
+                    VerticalTextAlignment="Center"
+                    Text="Reminder"
+                    FontSize="Medium"/>
+
+                <Switch                
+                    x:Name="ReminderToggle"
+                    IsToggled="{Binding IsReminder}"
+                    Toggled="ReminderToggle_Toggled"/>
+
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout
+                HeightRequest="60"
+                HorizontalOptions="Start"
+                VerticalOptions="Center">
+
+                <DatePicker
+                    x:Name="ReminderDate"
+                    FontSize="Medium"
+                    Date="{Binding ReminderDate}"
+                    IsVisible="false"/>
+
+                <TimePicker
+                    x:Name="ReminderTime"
+                    FontSize="Medium"
+                    Time="{Binding ReminderTime}"
+                    IsVisible="false"/>
+
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout
+                HeightRequest="50"
+                HorizontalOptions="Start"
+                VerticalOptions="Center">
+
+                <Label
+                    x:Name="RepeatLabel"
+                    Text="Repeatly"
+                    VerticalTextAlignment="Center"
+                    FontSize="Medium"
+                    IsVisible="false"/>
+
+                <Switch
+                    x:Name="RepeatToggle"
+                    IsToggled="{Binding IsReminderRepeatly}"
+                    Toggled="RepeatToggle_Toggled"
+                    IsVisible="false"/>
+
+            </HorizontalStackLayout>
+
+            <Picker 
+                x:Name="RepeatType"
+                Title="Select Repeat Type"
+                HeightRequest="60"
+                IsVisible="false"
+                SelectedItem="{Binding RepeatType}">
+                <Picker.Items>
+                    <x:String>Minutly</x:String>
+                    <x:String>Hourly</x:String>
+                    <x:String>Daily</x:String>
+                    <x:String>Weekly</x:String>
+                    <x:String>Monthly</x:String>
+                    <x:String>Yearly</x:String>
+                </Picker.Items>
+            </Picker>
+
+        </StackLayout>
+    </Frame>
+
+</mct:Popup>

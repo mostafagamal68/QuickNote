@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Plugin.LocalNotification;
 using QuickNote.Configurations;
 using QuickNote.Models;
 using System.Collections.Generic;
@@ -166,6 +167,7 @@ namespace QuickNote.ViewModels
                 {
                     IsLoading = true;
                     await database.DeleteItemAsync(note.Id);
+                    LocalNotificationCenter.Current.Cancel(note.Id);
                     await GetNotes();
                     IsLoading = false;
                 },

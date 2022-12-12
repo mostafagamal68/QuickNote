@@ -4,7 +4,43 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:QuickNote"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Flyout">
+
+    <Shell.FlyoutContent>
+        <StackLayout
+            Padding="15,15">
+
+            <HorizontalStackLayout
+                WidthRequest="30" 
+                HeightRequest="30" 
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Margin="0,15">
+                
+                <Image
+                Source="moon_symbol_100px.png"/>
+
+                <Label 
+                Text="Dark"
+                FontSize="Large"/>
+
+            </HorizontalStackLayout>
+            <HorizontalStackLayout
+            WidthRequest="30" 
+            HeightRequest="30" 
+            HorizontalOptions="Start"
+            VerticalOptions="Center">
+                <Image
+                Source="moon_symbol_100px.png"/>
+
+                <Label 
+                Text="Light"
+                FontSize="Large"/>
+
+            </HorizontalStackLayout>
+            
+        </StackLayout>
+    </Shell.FlyoutContent>
 
     <ShellContent
         Title="Home"

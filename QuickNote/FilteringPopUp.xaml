@@ -9,10 +9,11 @@
     <Frame>
 
         <VerticalStackLayout
-        Margin="0"
-        Padding="15"
-        RadioButtonGroup.GroupName ="FilterType"
-        RadioButtonGroup.SelectedValue="{Binding SelectedFilter}">
+            Margin="0"
+            Padding="15"
+            RadioButtonGroup.GroupName ="FilterType"
+            RadioButtonGroup.SelectedValue="{Binding SelectedFilter}">
+            
             <Label Text="Select Filter :"/>
             <RadioButton Content="All"
                      Value="1"/>
@@ -25,11 +26,11 @@
         <RadioButton Content="This Month"/>
         <RadioButton Content="This week"/>-->
             <Button
-            x:Name="Apply"
-            Text="Apply"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            Clicked="Apply_Clicked"/>
+                x:Name="Apply"
+                Text="Apply"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="Apply_Clicked"/>
             <!--Command="{Binding ApplyFilterCommand}"/>-->
         </VerticalStackLayout>
 

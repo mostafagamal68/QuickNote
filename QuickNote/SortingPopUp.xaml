@@ -4,46 +4,53 @@
            xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
            xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
            x:DataType="viewmodel:MainPageVM"
-           x:Class="QuickNote.SortingPopUp" Size="250,400" Color="Transparent">
+           x:Class="QuickNote.SortingPopUp" Size="200,410" Color="Transparent">
 
     <Frame>
 
         <VerticalStackLayout>
 
             <StackLayout
-            Margin="0"
-            Padding="15"
-            RadioButtonGroup.GroupName ="SortField"
-            RadioButtonGroup.SelectedValue="{Binding SelectedSortField}">
+                Margin="0"
+                Padding="15"
+                RadioButtonGroup.GroupName ="SortField"
+                RadioButtonGroup.SelectedValue="{Binding SelectedSortField}">
 
-                <Label Text="Select Sort Field:"/>
-                <RadioButton Content="Date"
+                <Label 
+                    Text="Select Sort Field:"/>
+                <RadioButton 
+                    Content="Date"
                      Value="1"/>
-                <RadioButton Content="Name"
+                <RadioButton 
+                    Content="Name"
                      Value="2"/>
-                <RadioButton Content="Done"
+                <RadioButton 
+                    Content="Done"
                      Value="3"/>
             </StackLayout>
 
             <StackLayout
-            Margin="0"
-            Padding="15"
-            RadioButtonGroup.GroupName ="SortType"
-            RadioButtonGroup.SelectedValue="{Binding SelectedSortType}">
+                Margin="0"
+                Padding="15"
+                RadioButtonGroup.GroupName ="SortType"
+                RadioButtonGroup.SelectedValue="{Binding SelectedSortType}">
 
-                <Label Text="Select Sort Type:"/>
-                <RadioButton Content="Ascending"
-                     Value="1"/>
-                <RadioButton Content="Descending"
-                     Value="2"/>
+                <Label 
+                    Text="Select Sort Type:"/>
+                <RadioButton 
+                    Content="Ascending"
+                    Value="1"/>
+                <RadioButton 
+                    Content="Descending"
+                    Value="2"/>
             </StackLayout>
 
             <Button
-            x:Name="Apply"
-            Text="Apply"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            Clicked="Apply_Clicked"/>
+                x:Name="Apply"
+                Text="Apply"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="Apply_Clicked"/>
 
         </VerticalStackLayout>
 
