@@ -5,9 +5,13 @@ namespace QuickNote;
 
 public partial class NoteOptions : Popup
 {
-	public NoteOptions()
+    private readonly NoteDetailsVM _viewModel;
+
+    public NoteOptions()
 	{
 		InitializeComponent();
+
+        ResultWhenUserTapsOutsideOfPopup = false;
 	}
 
     private void RepeatToggle_Toggled(object sender, ToggledEventArgs e)
@@ -24,4 +28,7 @@ public partial class NoteOptions : Popup
         RepeatToggle.IsToggled = false;
         RepeatType.IsVisible = false;
     }
+
+    private void Apply_Clicked(object sender, EventArgs e) => Close(true);
+    
 }

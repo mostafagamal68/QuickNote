@@ -1,9 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls;
 using Plugin.LocalNotification;
-using Plugin.LocalNotification.AndroidOption;
 using QuickNote.Configurations;
 using QuickNote.Models;
 
@@ -25,7 +23,7 @@ namespace QuickNote.ViewModels
         {
             if (Id != 0)
             {
-                var note = await database.GetItemAsync(Id);
+                note = await database.GetItemAsync(Id);
 
                 Id = note.Id;
                 Title = $"{note.Name} Details";
@@ -33,11 +31,33 @@ namespace QuickNote.ViewModels
                 Description = note.Description;
                 Date = note.Date.ToString("dd/MM/yyyy");
                 Done = note.Done;
+                IsReminder = note.IsReminder;
+                IsReminderRepeatly = note.IsReminderRepeatly;
+                ReminderDate = note.ReminderDate.Value.Date;
+                ReminderTime = note.ReminderDate.Value.TimeOfDay;
+                RepeatType = note.RepeatType;
             }
             else
             {
                 Title = "New Note";
             }
+        }
+
+        public void InitReminderValues()
+        {
+            IsReminder = note.IsReminder;
+            IsReminderRepeatly = note.IsReminderRepeatly;
+            ReminderDate = note.ReminderDate.Value.Date;
+            ReminderTime = note.ReminderDate.Value.TimeOfDay;
+            RepeatType = note.RepeatType;
+        }
+
+        public async Task SetReminderNotify()
+        {
+            await Toast.Make//("Reminder has been set")
+                ("Reminder has been set to " + ReminderDate.ToString("dd/MM/yyyy") + " at " + ReminderTime.ToString("HH:ss tt"))
+                    //{(IsReminderRepeatly ? $"and will be repeat {RepeatType}" : "")}
+                    .Show();
         }
 
         TimeSpan? GetRepeatTime(string selectedRepeatType, DateTime selectedReminderDate)
@@ -57,6 +77,18 @@ namespace QuickNote.ViewModels
             else
                 return null;
         }
+
+        public bool CompareNoteValues()
+        {
+            if (note.Name != Name || note.Description != Description || note.Done != Done || note.IsReminder != IsReminder ||
+                note.ReminderDate.Value.Date != ReminderDate || note.ReminderDate.Value.TimeOfDay != ReminderTime ||
+                note.IsReminderRepeatly != IsReminderRepeatly || note.RepeatType != RepeatType)
+                return false;
+            else
+                return true;
+        }
+
+        QuickNoteItem note = new();
 
         [ObservableProperty]
         int id;
@@ -115,7 +147,7 @@ namespace QuickNote.ViewModels
                 };
                 await database.SaveItemAsync(quickNote);
 
-                if(quickNote.IsReminder && quickNote.ReminderDate != null)
+                if (quickNote.IsReminder && quickNote.ReminderDate != null)
                 {
                     var notification = new NotificationRequest
                     {
@@ -130,6 +162,7 @@ namespace QuickNote.ViewModels
                         }
                     };
 
+                    LocalNotificationCenter.Current.Cancel(quickNote.Id);
                     await LocalNotificationCenter.Current.Show(notification);
 
                 }
@@ -150,10 +183,16 @@ namespace QuickNote.ViewModels
         }
 
         [RelayCommand]
-        static void GoBack()
+        public async Task GoBack()
         {
-            Shared.NoteId = null;
-            Shell.Current.GoToAsync("..", true);
+            if (CompareNoteValues() == false)
+            {
+                var answer = await Shell.Current.DisplayAlert("Attention", "There are unsaved changes\nAre you sure to leave?", "Yes", "No");
+                if (answer)
+                    await Shell.Current.GoToAsync("..", true);
+            }
+            else
+                await Shell.Current.GoToAsync("..", true);
         }
     }
 }

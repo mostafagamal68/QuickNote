@@ -20,12 +20,21 @@ public partial class NoteDetails : ContentPage
 
     protected override bool OnBackButtonPressed()
 	{
-		Shared.NoteId = null;
-        return base.OnBackButtonPressed();
+        //(BindingContext as NoteDetailsVM).GoBack();
+        //return base.OnBackButtonPressed();
+        Dispatcher.Dispatch(async () => await (BindingContext as NoteDetailsVM).GoBack());
+        return true;
     }
 
     private async void NoteOptions_Clicked(object sender, EventArgs e)
     {
-        await this.ShowPopupAsync(new NoteOptions());
+        var result = await this.ShowPopupAsync(new NoteOptions());
+        if (result is bool boolResult)
+        {
+            if (boolResult)
+                await (BindingContext as NoteDetailsVM).SetReminderNotify();
+            else
+                (BindingContext as NoteDetailsVM).InitReminderValues();
+        }
     }
 }

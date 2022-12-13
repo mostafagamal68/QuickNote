@@ -181,7 +181,7 @@ namespace QuickNote.ViewModels
         [RelayCommand]
         async Task Tap(int? Id)
         {
-            Shared.NoteId = Id;
+            //Shared.NoteId = Id;
             await Shell.Current.GoToAsync($"{nameof(NoteDetails)}", true, new Dictionary<string, object> { { "Id", Id } });
         }
     }
