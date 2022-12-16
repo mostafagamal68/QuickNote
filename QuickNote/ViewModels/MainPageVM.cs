@@ -9,7 +9,6 @@ using System.Collections.Generic;
 
 namespace QuickNote.ViewModels
 {
-    [QueryProperty("Filter", "Filter")]
     public partial class MainPageVM : ObservableObject
     {
         private static Database database;
@@ -17,6 +16,9 @@ namespace QuickNote.ViewModels
         public MainPageVM()
         {
             Notes = new();
+            SelectedFilter = 1;
+            SelectedSortField = 1;
+            SelectedSortType = 1;
         }
 
         public async Task Init()
@@ -74,6 +76,7 @@ namespace QuickNote.ViewModels
                     Done = s.Done
                 }).ToList();
 
+                CurrentMainPageSettings.SetValues(SelectedFilter, SelectedSortField, SelectedSortType);
                 IsLoading = false;
             }
         }
@@ -94,11 +97,19 @@ namespace QuickNote.ViewModels
                 Notes.Clear();
                 Notes = sorted;
 
+                CurrentMainPageSettings.SetValues(SelectedFilter, SelectedSortField, SelectedSortType);
                 IsLoading = false;
             }
         }
 
-        //[RelayCommand]
+        public void InitMainPageSettings()
+        {
+            var Values = CurrentMainPageSettings.GetValues();
+            SelectedFilter = Values[0];
+            SelectedSortField = Values[1];
+            SelectedSortType = Values[2];
+        }
+
         public async Task Search()
         {
             IsLoading = true;
@@ -149,40 +160,31 @@ namespace QuickNote.ViewModels
         //}
 
         [RelayCommand]
-        async Task Create()
-        {
-            await Shell.Current.GoToAsync(nameof(NoteDetails));
-        }
+        async Task Create() => await Shell.Current.GoToAsync(nameof(NoteDetails));
+        
 
         [RelayCommand]
         async Task Delete(QuickNoteItem note)
         {
-            //IsLoading = true;
-            //var note = await database.GetItemAsync(note);
-            //var answer = await Shell.Current.DisplayAlert("Warning", $"Are you sure to delete this note ({note.Name})", "Yes", "No");
-            //if (answer)
-            //{
-            //}
             await Snackbar.Make($"Confirm to delete {note.Name} in 5 seconds", async () =>
-                {
-                    IsLoading = true;
-                    await database.DeleteItemAsync(note.Id);
-                    LocalNotificationCenter.Current.Cancel(note.Id);
-                    await GetNotes();
-                    IsLoading = false;
-                },
-                "Yes", TimeSpan.FromSeconds(5), new SnackbarOptions
-                {
-                    BackgroundColor = Colors.Red,
-                    TextColor = Colors.White,
-                }).Show();
+            {
+                IsLoading = true;
+                await database.DeleteItemAsync(note.Id);
+                LocalNotificationCenter.Current.Cancel(note.Id);
+                await GetNotes();
+                IsLoading = false;
+            },
+            "Yes",
+            TimeSpan.FromSeconds(5),
+            new SnackbarOptions
+            {
+                BackgroundColor = Colors.Red,
+                TextColor = Colors.White,
+            }).Show();
         }
 
         [RelayCommand]
-        async Task Tap(int? Id)
-        {
-            //Shared.NoteId = Id;
-            await Shell.Current.GoToAsync($"{nameof(NoteDetails)}", true, new Dictionary<string, object> { { "Id", Id } });
-        }
+        async Task Tap(int? Id) => await Shell.Current.GoToAsync($"{nameof(NoteDetails)}", true, new Dictionary<string, object> { { "Id", Id } });
+        
     }
 }

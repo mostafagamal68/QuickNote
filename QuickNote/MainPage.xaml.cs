@@ -1,30 +1,33 @@
 ﻿using CommunityToolkit.Maui.Views;
 using QuickNote.ViewModels;
-using static SQLite.SQLite3;
 
 namespace QuickNote;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(MainPageVM vm)
-	{
-		InitializeComponent();
-		BindingContext = vm;
-	}
+    private readonly MainPageVM _mainPageVM;
+    public MainPage(MainPageVM vm)
+    {
+        InitializeComponent();
+        BindingContext = vm;
+        _mainPageVM = vm;
+    }
 
     protected async override void OnAppearing()
     {
         base.OnAppearing();
-        await (BindingContext as MainPageVM).Init();
+        await _mainPageVM.Init();
     }
 
     private async void FilterButton_Clicked(object sender, EventArgs e)
     {
-        var result =  await this.ShowPopupAsync(new FilteringPopUp());
+        var result = await this.ShowPopupAsync(new FilteringPopUp());
         if (result is bool boolResult)
         {
-            if(boolResult)
-                await (BindingContext as MainPageVM).GetNotesWithFilter();
+            if (boolResult)
+                await _mainPageVM.GetNotesWithFilter();
+            else
+                _mainPageVM.InitMainPageSettings();
         }
     }
 
@@ -35,12 +38,11 @@ public partial class MainPage : ContentPage
         {
             if (boolResult)
                 (BindingContext as MainPageVM).GetNotesWithSort();
+            //else
+            //    (BindingContext as MainPageVM).InitMainPageSettings();
         }
     }
 
-    private async void Entry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        await (BindingContext as MainPageVM).Search();
-    }
+    private async void Entry_TextChanged(object sender, TextChangedEventArgs e) => await (BindingContext as MainPageVM).Search();
 }
 

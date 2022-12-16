@@ -18,23 +18,7 @@
             Grid.ColumnSpan="3"
             Source="goodnotes_100px.png" 
             Background="transparent">
-            <Image.Shadow>
-                <Shadow Brush="Black"
-                Offset="20,20"
-                Radius="40"
-                Opacity="0.2" />
-            </Image.Shadow>
         </Image>
-
-        <!--<ImageButton 
-            Grid.Row="0"
-            Grid.Column="1"
-            Source="moon_symbol_100px.png" 
-            Background="transparent"
-            HorizontalOptions="Start"
-            VerticalOptions="Start"
-            Command="{Binding SwitchCommand}">
-        </ImageButton>-->
 
         <Entry
             Placeholder="Search notes"

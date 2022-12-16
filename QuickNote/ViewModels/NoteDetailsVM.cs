@@ -33,8 +33,10 @@ namespace QuickNote.ViewModels
                 Done = note.Done;
                 IsReminder = note.IsReminder;
                 IsReminderRepeatly = note.IsReminderRepeatly;
-                ReminderDate = note.ReminderDate.Value.Date;
-                ReminderTime = note.ReminderDate.Value.TimeOfDay;
+                if (note.ReminderDate.HasValue)
+                    ReminderDate = note.ReminderDate.Value.Date;
+                if (note.ReminderDate.HasValue)
+                    ReminderTime = note.ReminderDate.Value.TimeOfDay;
                 RepeatType = note.RepeatType;
             }
             else
@@ -43,21 +45,21 @@ namespace QuickNote.ViewModels
             }
         }
 
-        public void InitReminderValues()
+        public void InitReminderValues(bool reminderStatus, bool repeatStatus, DateTime? reminderDate, TimeSpan? reminderTime, string repeatType)
         {
-            IsReminder = note.IsReminder;
-            IsReminderRepeatly = note.IsReminderRepeatly;
-            ReminderDate = note.ReminderDate.Value.Date;
-            ReminderTime = note.ReminderDate.Value.TimeOfDay;
-            RepeatType = note.RepeatType;
+            IsReminder = reminderStatus;
+            IsReminderRepeatly = repeatStatus;
+            if (reminderDate.HasValue)
+                ReminderDate = reminderDate.Value.Date;
+            if (reminderTime.HasValue)
+                ReminderTime = reminderTime.Value;
+            RepeatType = repeatType;
         }
 
-        public async Task SetReminderNotify()
+        public async Task SetReminderNotify(bool ReminderStatus)
         {
-            await Toast.Make//("Reminder has been set")
-                ("Reminder has been set to " + ReminderDate.ToString("dd/MM/yyyy") + " at " + ReminderTime.ToString("HH:ss tt"))
-                    //{(IsReminderRepeatly ? $"and will be repeat {RepeatType}" : "")}
-                    .Show();
+            if(IsReminder != ReminderStatus)
+                await Toast.Make(IsReminder ? "Reminder has been set on" : "Reminder has been set off").Show();
         }
 
         TimeSpan? GetRepeatTime(string selectedRepeatType, DateTime selectedReminderDate)
@@ -78,15 +80,11 @@ namespace QuickNote.ViewModels
                 return null;
         }
 
-        public bool CompareNoteValues()
-        {
-            if (note.Name != Name || note.Description != Description || note.Done != Done || note.IsReminder != IsReminder ||
-                note.ReminderDate.Value.Date != ReminderDate || note.ReminderDate.Value.TimeOfDay != ReminderTime ||
-                note.IsReminderRepeatly != IsReminderRepeatly || note.RepeatType != RepeatType)
-                return false;
-            else
-                return true;
-        }
+        public bool CompareNoteValues() => note.Name == Name && note.Description == Description && note.Done == Done && note.IsReminder == IsReminder &&
+                (note.ReminderDate.HasValue ? note.ReminderDate.Value.Date == ReminderDate : 1 == 1) &&
+                (note.ReminderDate.HasValue ? note.ReminderDate.Value.TimeOfDay == ReminderTime : 1 == 1) &&
+                note.IsReminderRepeatly == IsReminderRepeatly && note.RepeatType == RepeatType;
+
 
         QuickNoteItem note = new();
 
@@ -171,9 +169,6 @@ namespace QuickNote.ViewModels
                     LocalNotificationCenter.Current.Cancel(quickNote.Id);
                 }
 
-
-                Shared.NoteId = null;
-
                 await Toast.Make("Saved Successfully!").Show();
                 await Shell.Current.GoToAsync("..", true);
             }
@@ -182,8 +177,7 @@ namespace QuickNote.ViewModels
             IsLoading = false;
         }
 
-        [RelayCommand]
-        public async Task GoBack()
+        public async Task Back()
         {
             if (CompareNoteValues() == false)
             {
@@ -194,5 +188,9 @@ namespace QuickNote.ViewModels
             else
                 await Shell.Current.GoToAsync("..", true);
         }
+
+        [RelayCommand]
+        void GoBack() => Back();
+        
     }
 }

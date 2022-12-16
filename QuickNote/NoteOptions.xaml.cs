@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Views;
 using QuickNote.ViewModels;
 
@@ -5,12 +6,9 @@ namespace QuickNote;
 
 public partial class NoteOptions : Popup
 {
-    private readonly NoteDetailsVM _viewModel;
-
     public NoteOptions()
 	{
 		InitializeComponent();
-
         ResultWhenUserTapsOutsideOfPopup = false;
 	}
 
@@ -29,6 +27,11 @@ public partial class NoteOptions : Popup
         RepeatType.IsVisible = false;
     }
 
-    private void Apply_Clicked(object sender, EventArgs e) => Close(true);
-    
+    private async void Apply_Clicked(object sender, EventArgs e)
+    {
+        if (RepeatType.SelectedIndex == -1 && RepeatToggle.IsToggled)
+            await Toast.Make("Please Select Repeat Type").Show();
+        else
+            Close(true);
+    }
 }
