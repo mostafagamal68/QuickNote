@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using Plugin.LocalNotification;
 using QuickNote.Configurations;
 using QuickNote.Models;
-using System.Collections.Generic;
 
 namespace QuickNote.ViewModels
 {
@@ -31,10 +30,7 @@ namespace QuickNote.ViewModels
         {
             IsLoading = true;
             if (Notes.Count != 0)
-            {
                 Notes.Clear();
-
-            }
 
             var notesList = await database.GetItemsAsync();
 
@@ -44,7 +40,8 @@ namespace QuickNote.ViewModels
                 Name = s.Name,
                 Description = s.Description,
                 Date = s.Date,
-                Done = s.Done
+                Done = s.Done,
+                IsReminder = s.IsReminder
             }).ToList();
             IsLoading = false;
         }
@@ -73,7 +70,8 @@ namespace QuickNote.ViewModels
                     Name = s.Name,
                     Description = s.Description,
                     Date = s.Date,
-                    Done = s.Done
+                    Done = s.Done,
+                    IsReminder = s.IsReminder
                 }).ToList();
 
                 CurrentMainPageSettings.SetValues(SelectedFilter, SelectedSortField, SelectedSortType);
@@ -121,7 +119,8 @@ namespace QuickNote.ViewModels
                 Name = s.Name,
                 Description = s.Description,
                 Date = s.Date,
-                Done = s.Done
+                Done = s.Done,
+                IsReminder = s.IsReminder
             }).ToList();
             IsLoading = false;
         }

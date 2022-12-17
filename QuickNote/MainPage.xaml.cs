@@ -37,9 +37,9 @@ public partial class MainPage : ContentPage
         if (result is bool boolResult)
         {
             if (boolResult)
-                (BindingContext as MainPageVM).GetNotesWithSort();
-            //else
-            //    (BindingContext as MainPageVM).InitMainPageSettings();
+                _mainPageVM.GetNotesWithSort();
+            else
+                _mainPageVM.InitMainPageSettings();
         }
     }
 

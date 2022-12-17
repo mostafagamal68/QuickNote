@@ -4,7 +4,8 @@
              x:Class="QuickNote.MainPage"
              xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
              x:DataType="viewmodel:MainPageVM"
-             xmlns:model="clr-namespace:QuickNote.Models">
+             xmlns:model="clr-namespace:QuickNote.Models"
+             Title="Quick Note">
 
     <Grid
         RowDefinitions="100,50,*"
@@ -100,33 +101,53 @@
                             </Frame.GestureRecognizers>
                             
                             <Grid
-                                RowDefinitions="Auto,Auto"
-                                ColumnDefinitions="0.80*,0.20*"
+                                RowDefinitions="30,30"
+                                ColumnDefinitions="0.75*,0.25*"
                                 Grid.ColumnSpan="3">
+                                
                                 <Label
                                     Text="{Binding Name}"
                                     FontSize="Medium"
                                     FontAttributes="Bold"
                                     Grid.Row="0"
-                                    Grid.Column="0"/>
+                                    Grid.Column="0"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Start"/>
 
                                 <CheckBox
                                     IsChecked="{Binding Done}"
                                     Grid.Row="0"
                                     Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
                                     IsEnabled="False"/>
+                                
+                                <Image 
+                                    Source="notification_48px.png" 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HeightRequest="20"
+                                    VerticalOptions="Center"
+                                    Margin="5"
+                                    HorizontalOptions="End"
+                                    IsVisible="{Binding IsReminder}"/>
 
                                 <Label
                                     Text="{Binding Description}"
                                     FontSize="Caption"
                                     Grid.Row="1"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Start"
+                                    HorizontalTextAlignment="Center"
                                     Grid.Column="0"/>
 
                                 <Label
                                     Text="{Binding Date}"
                                     FontSize="Caption"
                                     Grid.Row="1"
-                                    Grid.Column="1"/>
+                                    Grid.Column="1"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"/>
                             </Grid>
                         </Frame>
                     </SwipeView>

@@ -4,47 +4,84 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:QuickNote"
-    Shell.FlyoutBehavior="Flyout">
+    Shell.TabBarIsVisible="False"
+    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutItemIsVisible="True">
 
-    <Shell.FlyoutContent>
-        <StackLayout
-            Padding="15,15">
-
-            <HorizontalStackLayout
-                WidthRequest="30" 
-                HeightRequest="30" 
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Margin="0,15">
-                
-                <Image
-                Source="moon_symbol_100px.png"/>
-
-                <Label 
-                Text="Dark"
-                FontSize="Large"/>
-
-            </HorizontalStackLayout>
-            <HorizontalStackLayout
-            WidthRequest="30" 
-            HeightRequest="30" 
-            HorizontalOptions="Start"
-            VerticalOptions="Center">
-                <Image
-                Source="moon_symbol_100px.png"/>
-
-                <Label 
-                Text="Light"
-                FontSize="Large"/>
-
-            </HorizontalStackLayout>
+    <!--<Shell.Resources>
+        <ResourceDictionary>
             
-        </StackLayout>
-    </Shell.FlyoutContent>
+        </ResourceDictionary>
+    </Shell.Resources>-->
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <StackLayout 
+                BackgroundColor="#fce0a2"
+                HeightRequest="150"
+                Padding="15">
 
+                <Image Source="goodnotes_100px.jpg"
+                       HorizontalOptions="Center"/>
+                <Label Text="Quick Note"
+                       TextColor="#7d7289"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+    
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid Margin="5" ColumnDefinitions="0.2*,0.8*" RowSpacing="15" HeightRequest="50">
+
+                <Image Source="{Binding Icon}" Grid.Column="0"/>
+                <Label Text="{Binding Title}" FontAttributes="Italic" Grid.Column="1"
+                       FontSize="Medium" VerticalTextAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <FlyoutItem
+            Icon="home_100px.png"
+            Title="Home">
+        <ShellContent 
+            ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage"/>
+    </FlyoutItem>
+    <FlyoutItem
+        Icon="note_100px.svg"
+        Title="New Note">
+        <ShellContent 
+            ContentTemplate="{DataTemplate local:NoteDetails}"/>
+    </FlyoutItem>
+    <FlyoutItem
+        Icon="settings_100px.png"
+        Title="Settings">
+        <ShellContent 
+            ContentTemplate="{DataTemplate local:MainPage}"/>
+    </FlyoutItem>
+    <FlyoutItem
+        Icon="help_100px.png"
+        Title="Help">
+        <ShellContent 
+            ContentTemplate="{DataTemplate local:MainPage}"/>
+    </FlyoutItem>
+
+    <Shell.FlyoutFooterTemplate>
+        <DataTemplate>
+            <StackLayout BackgroundColor="#7d7289"
+                         HeightRequest="50"
+                         Padding="5">
+                <Label Text="Copyrights Reserved to Mostafa Gamal© 2022" 
+                       TextColor="White" 
+                       HorizontalOptions="Center"/>
+                <Label Text="Version 1.2" 
+                       TextColor="White" 
+                       HorizontalOptions="Center"/>
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutFooterTemplate>
+    
 </Shell>
