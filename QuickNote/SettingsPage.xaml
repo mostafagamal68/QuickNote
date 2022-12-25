@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuickNote.SettingsPage"
+             Title="Settings">
+    <HorizontalStackLayout
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
+
+        <Button
+            x:Name="System"
+            Text="System"
+            Margin="5"
+            WidthRequest="80"
+            HeightRequest="100"
+            Clicked="System_Clicked"/>
+
+        <Button
+            x:Name="Light"
+            Text="Light"
+            Margin="5"
+            WidthRequest="80"
+            HeightRequest="100"
+            Clicked="Light_Clicked"/>
+
+        <Button
+            x:Name="Dark"
+            Text="Dark"
+            Margin="5"
+            WidthRequest="80"
+            HeightRequest="100"
+            Clicked="Dark_Clicked"/>
+
+        <Button
+            x:Name="Amoled"
+            Text="Amoled"
+            Margin="5"
+            HeightRequest="100"
+            WidthRequest="80"
+            Clicked="Amoled_Clicked"/>
+    </HorizontalStackLayout>
+</ContentPage>
