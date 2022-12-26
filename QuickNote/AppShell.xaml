@@ -8,12 +8,6 @@
     Shell.FlyoutBehavior="Flyout"
     Shell.FlyoutItemIsVisible="True">
 
-    <!--<Shell.Resources>
-        <ResourceDictionary>
-            
-        </ResourceDictionary>
-    </Shell.Resources>-->
-
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <StackLayout 
@@ -36,7 +30,24 @@
     <Shell.ItemTemplate>
         <DataTemplate>
             <Grid Margin="5" ColumnDefinitions="0.2*,0.8*" RowSpacing="15" HeightRequest="50">
-
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor"
+                                    Value="Transparent" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor"
+                                    Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
                 <Image Source="{Binding Icon}" Grid.Column="0"/>
                 <Label Text="{Binding Title}" FontAttributes="Italic" Grid.Column="1"
                        FontSize="Medium" VerticalTextAlignment="Center"/>
@@ -60,13 +71,13 @@
         Icon="settings_100px.png"
         Title="Settings">
         <ShellContent 
-            ContentTemplate="{DataTemplate local:MainPage}"/>
+            ContentTemplate="{DataTemplate local:SettingsPage}"/>
     </FlyoutItem>
     <FlyoutItem
         Icon="help_100px.png"
         Title="Help">
         <ShellContent 
-            ContentTemplate="{DataTemplate local:MainPage}"/>
+            ContentTemplate="{DataTemplate local:AboutPage}"/>
     </FlyoutItem>
 
     <Shell.FlyoutFooterTemplate>

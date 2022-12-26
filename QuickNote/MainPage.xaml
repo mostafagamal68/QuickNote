@@ -18,8 +18,7 @@
             Grid.Row="0"
             Grid.ColumnSpan="3"
             Source="goodnotes_100px.png" 
-            Background="transparent">
-        </Image>
+            Background="transparent"/>
 
         <Entry
             Placeholder="Search notes"

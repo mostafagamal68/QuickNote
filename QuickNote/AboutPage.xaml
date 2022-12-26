@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuickNote.AboutPage"
+             Title="AboutPage">
+    <VerticalStackLayout
+        VerticalOptions="Center" 
+        HorizontalOptions="Center">
+        <Image
+            Source="goodnotes_100px.png" 
+            Background="transparent"/>
+        <Label 
+            Text="Quick Note"
+            FontSize="24"
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Center"/>
+        <Label
+            Text="This App developed with .NET MAUI "
+            FontSize="18"/>
+    </VerticalStackLayout>
+</ContentPage>
