@@ -78,13 +78,12 @@
 
                                     <Grid
                                         RowDefinitions="*"
-                                        ColumnDefinitions="*">
+                                        ColumnDefinitions="*"
+                                        HeightRequest="60">
                                         <Image
-                                            Grid.Row="0" 
-                                            Grid.Column="0"
-                                            Source="remove_50px.png"
-                                            VerticalOptions="CenterAndExpand"
-                                            HorizontalOptions="CenterAndExpand"/>
+                                            Source="remove_100px.png"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center"/>
                                     </Grid>
                                 </SwipeItemView>
 
