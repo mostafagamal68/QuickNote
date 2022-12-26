@@ -15,9 +15,9 @@ namespace QuickNote.ViewModels
         public MainPageVM()
         {
             Notes = new();
-            SelectedFilter = 1;
-            SelectedSortField = 1;
-            SelectedSortType = 1;
+            SelectedFilter = "All";
+            SelectedSortField = "Date";
+            SelectedSortType = "Descending";
         }
 
         public async Task Init()
@@ -48,8 +48,8 @@ namespace QuickNote.ViewModels
 
         public async Task GetNotesWithFilter()
         {
-            if (SelectedFilter != 0)
-            {
+            //if (SelectedFilter != 0)
+            //{
 
                 IsLoading = true;
 
@@ -57,11 +57,11 @@ namespace QuickNote.ViewModels
                     Notes.Clear();
 
                 List<QuickNoteItem> notesList = new();
-                if (SelectedFilter == 1)
+                if ((string)SelectedFilter == "All")
                     notesList = await database.GetItemsAsync();
-                else if (SelectedFilter == 2)
+                else if ((string)SelectedFilter == "Done")
                     notesList = await database.GetItemsDoneAsync();
-                else if (SelectedFilter == 3)
+                else if ((string)SelectedFilter == "Not done yet")
                     notesList = await database.GetItemsNotDoneAsync();
 
                 Notes = notesList.Select(s => new QuickNoteItem
@@ -74,30 +74,31 @@ namespace QuickNote.ViewModels
                     IsReminder = s.IsReminder
                 }).ToList();
 
-                CurrentMainPageSettings.SetValues(SelectedFilter, SelectedSortField, SelectedSortType);
+                CurrentMainPageSettings.SetValues(Convert.ToString(SelectedFilter), Convert.ToString(SelectedSortField), Convert.ToString(SelectedSortType));
                 IsLoading = false;
-            }
+            //}
         }
 
         public void GetNotesWithSort()
         {
-            if (SelectedSortField != 0)
-            {
+            var s = SelectedSortField.GetType();
+            //if (SelectedSortField.GetType())
+            //{
                 IsLoading = true;
                 List<QuickNoteItem> sorted = new();
-                if (SelectedSortField == 1)
-                    sorted = SelectedSortType == 1 ? Notes.OrderBy(o => o.Date).ToList() : Notes.OrderByDescending(o => o.Date).ToList();
-                else if (SelectedSortField == 2)
-                    sorted = SelectedSortType == 1 ? Notes.OrderBy(o => o.Name).ToList() : Notes.OrderByDescending(o => o.Name).ToList();
-                else if (SelectedSortField == 3)
-                    sorted = SelectedSortType == 1 ? Notes.OrderBy(o => o.Done).ToList() : Notes.OrderByDescending(o => o.Done).ToList();
+                if ((string)SelectedSortField == "Date")
+                    sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Date).ToList() : Notes.OrderByDescending(o => o.Date).ToList();
+                else if ((string)SelectedSortField == "Name")
+                    sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Name).ToList() : Notes.OrderByDescending(o => o.Name).ToList();
+                else if ((string)SelectedSortField == "Done")
+                    sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Done).ToList() : Notes.OrderByDescending(o => o.Done).ToList();
 
                 Notes.Clear();
                 Notes = sorted;
 
-                CurrentMainPageSettings.SetValues(SelectedFilter, SelectedSortField, SelectedSortType);
+                CurrentMainPageSettings.SetValues(Convert.ToString(SelectedFilter), Convert.ToString(SelectedSortField), Convert.ToString(SelectedSortType));
                 IsLoading = false;
-            }
+            //}
         }
 
         public void InitMainPageSettings()
@@ -135,13 +136,13 @@ namespace QuickNote.ViewModels
         string searchText;
 
         [ObservableProperty]
-        int selectedFilter;
+        object selectedFilter;
 
         [ObservableProperty]
-        int selectedSortField;
+        object selectedSortField;
 
         [ObservableProperty]
-        int selectedSortType;
+        object selectedSortType;
 
         //[RelayCommand]
         //void Switch()

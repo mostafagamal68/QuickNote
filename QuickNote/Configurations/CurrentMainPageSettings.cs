@@ -2,18 +2,18 @@
 {
     public class CurrentMainPageSettings
     {
-        private static int FilterType;
-        private static int SortField;
-        private static int SortType;
+        private static string FilterType;
+        private static string SortField;
+        private static string SortType;
 
-        public static void SetValues(int filterType, int sortField, int sortType)
+        public static void SetValues(string filterType, string sortField, string sortType)
         {
             FilterType = filterType;
             SortField = sortField;
             SortType = sortType;
         }
 
-        public static int[] GetValues() => new int[3] { FilterType, SortField, SortType };       
+        public static string[] GetValues() => new string[3] { FilterType, SortField, SortType };       
         
     }
 

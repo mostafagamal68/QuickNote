@@ -20,13 +20,13 @@
                     Text="Select Sort Field:"/>
                 <RadioButton 
                     Content="Date"
-                     Value="1"/>
+                     Value="Date"/>
                 <RadioButton 
                     Content="Name"
-                     Value="2"/>
+                     Value="Name"/>
                 <RadioButton 
                     Content="Done"
-                     Value="3"/>
+                     Value="Done"/>
             </StackLayout>
 
             <StackLayout
@@ -39,10 +39,10 @@
                     Text="Select Sort Type:"/>
                 <RadioButton 
                     Content="Ascending"
-                    Value="1"/>
+                    Value="Ascending"/>
                 <RadioButton 
                     Content="Descending"
-                    Value="2"/>
+                    Value="Descending"/>
             </StackLayout>
 
             <Button

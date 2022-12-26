@@ -16,11 +16,11 @@
             
             <Label Text="Select Filter :"/>
             <RadioButton Content="All"
-                     Value="1"/>
+                     Value="All"/>
             <RadioButton Content="Done"
-                     Value="2"/>
-            <RadioButton Content="Not Done yet"
-                     Value="3"/>
+                     Value="Done"/>
+            <RadioButton Content="Not done yet"
+                     Value="Not done yet"/>
 
             <!--<RadioButton Content="Today" />
         <RadioButton Content="This Month"/>
