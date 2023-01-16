@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Views;
+using QuickNote.Helpers;
 using QuickNote.ViewModels;
 
 namespace QuickNote;
@@ -7,10 +8,10 @@ namespace QuickNote;
 public partial class NoteOptions : Popup
 {
     public NoteOptions()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         ResultWhenUserTapsOutsideOfPopup = false;
-	}
+    }
 
     private void RepeatToggle_Toggled(object sender, ToggledEventArgs e)
     {
@@ -29,7 +30,14 @@ public partial class NoteOptions : Popup
 
     private async void Apply_Clicked(object sender, EventArgs e)
     {
-        if (RepeatType.SelectedIndex == -1 && RepeatToggle.IsToggled)
+        var status = await CheckPermissions.CheckNotificationPermission();
+
+        if (status != PermissionStatus.Granted)
+        {
+            await Toast.Make("Notification Permission is needed to set a reminder!").Show();
+            Close(false);
+        }
+        else if (RepeatType.SelectedIndex == -1 && RepeatToggle.IsToggled)
             await Toast.Make("Please Select Repeat Type").Show();
         else
             Close(true);

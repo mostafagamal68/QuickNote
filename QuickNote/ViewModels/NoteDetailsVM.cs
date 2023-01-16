@@ -157,7 +157,7 @@ namespace QuickNote.ViewModels
                             NotifyTime = quickNote.ReminderDate,
                             NotifyRepeatInterval = GetRepeatTime(quickNote.RepeatType, (DateTime)quickNote.ReminderDate),
                             RepeatType = IsReminderRepeatly ? NotificationRepeat.TimeInterval : NotificationRepeat.No
-                        }
+                        }                        
                     };
 
                     LocalNotificationCenter.Current.Cancel(quickNote.Id);
