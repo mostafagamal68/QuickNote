@@ -9,6 +9,7 @@ public partial class NoteOptions : Popup
 {
     public NoteOptions()
     {
+		Size = new Size( DeviceDisplay.MainDisplayInfo.Width/2.75, DeviceDisplay.MainDisplayInfo.Height/8);
         InitializeComponent();
         ResultWhenUserTapsOutsideOfPopup = false;
     }
@@ -24,8 +25,8 @@ public partial class NoteOptions : Popup
         ReminderTime.IsVisible = !ReminderTime.IsVisible;
         RepeatLabel.IsVisible = !RepeatLabel.IsVisible;
         RepeatToggle.IsVisible = !RepeatToggle.IsVisible;
-        RepeatToggle.IsToggled = false;
-        RepeatType.IsVisible = false;
+        //RepeatToggle.IsToggled = false;
+        //RepeatType.IsVisible = false;
     }
 
     private async void Apply_Clicked(object sender, EventArgs e)
