@@ -8,7 +8,7 @@ namespace QuickNote.Configurations
         static SQLiteAsyncConnection DB;
 
         public static readonly AsyncLazy<Database> Instance =
-            new AsyncLazy<Database>(async () =>
+            new(async () =>
             {
                 var instance = new Database();
                 try
@@ -43,7 +43,7 @@ namespace QuickNote.Configurations
 
         public async Task<List<QuickNoteItem>> SearchItemsAsync(string text)
         {
-            return await DB.Table<QuickNoteItem>().Where(w=>w.Name.ToLower().Contains(text.ToLower())).ToListAsync();
+            return await DB.Table<QuickNoteItem>().Where(w => w.Name.ToLower().Contains(text.ToLower())).ToListAsync();
         }
 
         public async Task<List<QuickNoteItem>> GetItemsDoneAsync()
@@ -54,9 +54,6 @@ namespace QuickNote.Configurations
         public async Task<List<QuickNoteItem>> GetItemsNotDoneAsync()
         {
             return await DB.Table<QuickNoteItem>().Where(t => t.Done == false).ToListAsync();
-
-            // SQL queries are also possible
-            //return await Database.QueryAsync<QuickNoteItem>("SELECT * FROM [QuickNoteItem] WHERE [Done] = 0");
         }
 
         public async Task<QuickNoteItem> GetItemAsync(int id)

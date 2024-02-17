@@ -15,7 +15,7 @@
                 HeightRequest="150"
                 Padding="15">
 
-                <Image Source="goodnotes_100px.jpg"
+                <Image Source="goodnotes_home.jpg"
                        HorizontalOptions="Center"/>
                 <Label Text="Quick Note"
                        TextColor="#7d7289"
@@ -65,7 +65,7 @@
         Icon="note_100px.svg"
         Title="New Note">
         <ShellContent 
-            ContentTemplate="{DataTemplate local:NoteDetails}"/>
+            ContentTemplate="{DataTemplate local:NoteDetails}" Route="NoteDetails"/>
     </FlyoutItem>
     <FlyoutItem
         Icon="settings_100px.png"

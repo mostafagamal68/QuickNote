@@ -4,11 +4,14 @@
            xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
            xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
            x:DataType="viewmodel:NoteDetailsVM"
-           x:Class="QuickNote.NoteOptions" Size="250,320" Color="Transparent"
-           >
+           x:Class="QuickNote.NoteOptions"
+           Color="Transparent"
+           VerticalOptions="End"
+           HorizontalOptions="Center">
 
-    <Frame>
-        <VerticalStackLayout>
+    <Border StrokeShape="RoundRectangle 15,15,0,0" StrokeThickness="0">
+
+        <VerticalStackLayout Padding="15" Margin="0">
 
             <HorizontalStackLayout
                 HeightRequest="50"
@@ -17,8 +20,8 @@
 
                 <Label
                     Text="Done"
-                    VerticalTextAlignment="Center"
-                    FontSize="Medium"/>
+                    VerticalOptions="Center"
+                    />
 
                 <CheckBox
                     IsChecked="{Binding Done}"/>
@@ -32,9 +35,9 @@
 
                 <Label
                     x:Name="ReminderLabel"
-                    VerticalTextAlignment="Center"
                     Text="Reminder"
-                    FontSize="Medium"/>
+                    VerticalOptions="Center"
+                    />
 
                 <Switch                
                     x:Name="ReminderToggle"
@@ -70,9 +73,9 @@
                 <Label
                     x:Name="RepeatLabel"
                     Text="Repeatly"
-                    VerticalTextAlignment="Center"
-                    FontSize="Medium"
-                    IsVisible="false"/>
+                    VerticalOptions="Center"
+                    IsVisible="false"
+                    />
 
                 <Switch
                     x:Name="RepeatToggle"
@@ -110,6 +113,6 @@
                 Clicked="Apply_Clicked"/>
 
         </VerticalStackLayout>
-    </Frame>
+    </Border>
 
 </mct:Popup>

@@ -7,9 +7,11 @@ public partial class SortingPopUp : Popup
 {
 	public SortingPopUp()
 	{
+		Size = new Size( DeviceDisplay.MainDisplayInfo.Width/2.75, DeviceDisplay.MainDisplayInfo.Height/6);
 		InitializeComponent();
-	}
+        ResultWhenUserTapsOutsideOfPopup = false;
+    }
 
-	private void Apply_Clicked(object sender, EventArgs e) => Close(true);
+    private void Apply_Clicked(object sender, EventArgs e) => Close(true);
     
 }

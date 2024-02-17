@@ -25,7 +25,7 @@ public partial class MainPage : ContentPage
         if (result is bool boolResult)
         {
             if (boolResult)
-                await _mainPageVM.GetNotesWithFilter();
+                await _mainPageVM.GetNotes();
             else
                 _mainPageVM.InitMainPageSettings();
         }

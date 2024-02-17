@@ -1,5 +1,4 @@
-﻿using Android.Provider;
-using SQLite;
+﻿using SQLite;
 
 namespace QuickNote.Models
 {

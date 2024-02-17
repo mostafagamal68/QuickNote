@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Plugin.LocalNotification;
 using QuickNote.Configurations;
 using QuickNote.Models;
+using System.Globalization;
 
 namespace QuickNote.ViewModels
 {
@@ -14,7 +15,7 @@ namespace QuickNote.ViewModels
 
         public MainPageVM()
         {
-            Notes = new();
+            Notes = [];
             SelectedFilter = "All";
             SelectedSortField = "Date";
             SelectedSortType = "Descending";
@@ -26,13 +27,57 @@ namespace QuickNote.ViewModels
             await GetNotes();
         }
 
-        async Task GetNotes()
+        public async Task GetNotes()
         {
             IsLoading = true;
+
             if (Notes.Count != 0)
                 Notes.Clear();
 
-            var notesList = await database.GetItemsAsync();
+            List<QuickNoteItem> notesList = [];
+            if ((string)SelectedFilter == "Done")
+                notesList = await database.GetItemsDoneAsync();
+            else if ((string)SelectedFilter == "Not done yet")
+                notesList = await database.GetItemsNotDoneAsync();
+            else
+                notesList = await database.GetItemsAsync();
+
+            Notes = notesList.Select(s => new QuickNoteItem
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description,
+                    Date = s.Date,
+                    Done = s.Done,
+                    IsReminder = s.IsReminder
+                })
+                .ToList();
+
+            if ((string)SelectedSortField == "Name")
+                Notes = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Name).ToList() : Notes.OrderByDescending(o => o.Name).ToList();
+            else if ((string)SelectedSortField == "Done")
+                Notes = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Done).ToList() : Notes.OrderByDescending(o => o.Done).ToList();
+            else
+                Notes = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Date).ToList() : Notes.OrderByDescending(o => o.Date).ToList();
+
+            CurrentMainPageSettings.SetValues(Convert.ToString(SelectedFilter), Convert.ToString(SelectedSortField), Convert.ToString(SelectedSortType));
+            IsLoading = false;
+        }
+
+        public async Task GetNotesWithFilter()
+        {
+            IsLoading = true;
+
+            if (Notes.Count != 0)
+                Notes.Clear();
+
+            List<QuickNoteItem> notesList = [];
+            if ((string)SelectedFilter == "All")
+                notesList = await database.GetItemsAsync();
+            else if ((string)SelectedFilter == "Done")
+                notesList = await database.GetItemsDoneAsync();
+            else if ((string)SelectedFilter == "Not done yet")
+                notesList = await database.GetItemsNotDoneAsync();
 
             Notes = notesList.Select(s => new QuickNoteItem
             {
@@ -43,62 +88,27 @@ namespace QuickNote.ViewModels
                 Done = s.Done,
                 IsReminder = s.IsReminder
             }).ToList();
+
+            CurrentMainPageSettings.SetValues(Convert.ToString(SelectedFilter), Convert.ToString(SelectedSortField), Convert.ToString(SelectedSortType));
             IsLoading = false;
-        }
-
-        public async Task GetNotesWithFilter()
-        {
-            //if (SelectedFilter != 0)
-            //{
-
-                IsLoading = true;
-
-                if (Notes.Count != 0)
-                    Notes.Clear();
-
-                List<QuickNoteItem> notesList = new();
-                if ((string)SelectedFilter == "All")
-                    notesList = await database.GetItemsAsync();
-                else if ((string)SelectedFilter == "Done")
-                    notesList = await database.GetItemsDoneAsync();
-                else if ((string)SelectedFilter == "Not done yet")
-                    notesList = await database.GetItemsNotDoneAsync();
-
-                Notes = notesList.Select(s => new QuickNoteItem
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Description = s.Description,
-                    Date = s.Date,
-                    Done = s.Done,
-                    IsReminder = s.IsReminder
-                }).ToList();
-
-                CurrentMainPageSettings.SetValues(Convert.ToString(SelectedFilter), Convert.ToString(SelectedSortField), Convert.ToString(SelectedSortType));
-                IsLoading = false;
-            //}
         }
 
         public void GetNotesWithSort()
         {
-            var s = SelectedSortField.GetType();
-            //if (SelectedSortField.GetType())
-            //{
-                IsLoading = true;
-                List<QuickNoteItem> sorted = new();
-                if ((string)SelectedSortField == "Date")
-                    sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Date).ToList() : Notes.OrderByDescending(o => o.Date).ToList();
-                else if ((string)SelectedSortField == "Name")
-                    sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Name).ToList() : Notes.OrderByDescending(o => o.Name).ToList();
-                else if ((string)SelectedSortField == "Done")
-                    sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Done).ToList() : Notes.OrderByDescending(o => o.Done).ToList();
+            IsLoading = true;
+            List<QuickNoteItem> sorted = [];
+            if ((string)SelectedSortField == "Date")
+                sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Date).ToList() : Notes.OrderByDescending(o => o.Date).ToList();
+            else if ((string)SelectedSortField == "Name")
+                sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Name).ToList() : Notes.OrderByDescending(o => o.Name).ToList();
+            else if ((string)SelectedSortField == "Done")
+                sorted = (string)SelectedSortType == "Ascending" ? Notes.OrderBy(o => o.Done).ToList() : Notes.OrderByDescending(o => o.Done).ToList();
 
-                Notes.Clear();
-                Notes = sorted;
+            Notes.Clear();
+            Notes = sorted;
 
-                CurrentMainPageSettings.SetValues(Convert.ToString(SelectedFilter), Convert.ToString(SelectedSortField), Convert.ToString(SelectedSortType));
-                IsLoading = false;
-            //}
+            CurrentMainPageSettings.SetValues(Convert.ToString(SelectedFilter), Convert.ToString(SelectedSortField), Convert.ToString(SelectedSortType));
+            IsLoading = false;
         }
 
         public void InitMainPageSettings()
@@ -122,7 +132,8 @@ namespace QuickNote.ViewModels
                 Date = s.Date,
                 Done = s.Done,
                 IsReminder = s.IsReminder
-            }).ToList();
+            })
+                .ToList();
             IsLoading = false;
         }
 
@@ -161,30 +172,31 @@ namespace QuickNote.ViewModels
 
         [RelayCommand]
         async Task Create() => await Shell.Current.GoToAsync(nameof(NoteDetails));
-        
+
 
         [RelayCommand]
         async Task Delete(QuickNoteItem note)
         {
             await Snackbar.Make($"Confirm to delete {note.Name} in 5 seconds", async () =>
-            {
-                IsLoading = true;
-                await database.DeleteItemAsync(note.Id);
-                LocalNotificationCenter.Current.Cancel(note.Id);
-                await GetNotes();
-                IsLoading = false;
-            },
-            "Yes",
-            TimeSpan.FromSeconds(5),
-            new SnackbarOptions
-            {
-                BackgroundColor = Colors.Red,
-                TextColor = Colors.White,
-            }).Show();
+                {
+                    IsLoading = true;
+                    await database.DeleteItemAsync(note.Id);
+                    LocalNotificationCenter.Current.Cancel(note.Id);
+                    await GetNotes();
+                    IsLoading = false;
+                },
+                "Yes",
+                TimeSpan.FromSeconds(5),
+                new SnackbarOptions
+                {
+                    BackgroundColor = Colors.Red,
+                    TextColor = Colors.White,
+                })
+                .Show();
         }
 
         [RelayCommand]
-        async Task Tap(int? Id) => await Shell.Current.GoToAsync($"{nameof(NoteDetails)}", true, new Dictionary<string, object> { { "Id", Id } });
-        
+        async Task Tap(int? Id) => await Shell.Current.GoToAsync(nameof(NoteDetails), true, new Dictionary<string, object> { { "Id", Id } });
+
     }
 }

@@ -6,10 +6,6 @@
              xmlns:viewmodel="clr-namespace:QuickNote.ViewModels"
              x:DataType="viewmodel:NoteDetailsVM">
 
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior Command="{Binding GoBackCommand}"/>
-    </Shell.BackButtonBehavior>
-
     <Grid
         RowDefinitions="80,60,*"
         ColumnDefinitions="0.85*,0.25*"

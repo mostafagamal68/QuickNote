@@ -39,7 +39,7 @@ public partial class SettingsPage : ContentPage
 
     private void Amoled_Clicked(object sender, EventArgs e)
     {
-        Application.Current.UserAppTheme = AppTheme.Dark;
         SetBlack("Black");
+        Application.Current.UserAppTheme = AppTheme.Dark;
     }
 }
