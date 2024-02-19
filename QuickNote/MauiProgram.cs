@@ -15,6 +15,11 @@ public static class MauiProgram
 			.UseMauiApp<App>()
             .UseMauiCommunityToolkit()
 			.UseLocalNotification()
+			.ConfigureEssentials(e =>
+			{
+				e.AddAppAction(new AppAction(nameof(NoteDetails), "Add Note", "Create new note", "create_100px.png"));
+				e.AddAppAction(new AppAction(nameof(AboutPage), "About Us", "About Us", "help_100px.png"));
+			})
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
