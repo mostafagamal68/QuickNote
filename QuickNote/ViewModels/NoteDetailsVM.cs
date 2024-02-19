@@ -80,10 +80,10 @@ namespace QuickNote.ViewModels
                 return null;
         }
 
-        public bool CompareNoteValues() => note.Name == Name && note.Description == Description && note.Done == Done && note.IsReminder == IsReminder &&
+        public bool IsValuesChanged() => !(note.Name == Name && note.Description == Description && note.Done == Done && note.IsReminder == IsReminder &&
                 (note.ReminderDate.HasValue ? note.ReminderDate.Value.Date == ReminderDate : 1 == 1) &&
                 (note.ReminderDate.HasValue ? note.ReminderDate.Value.TimeOfDay == ReminderTime : 1 == 1) &&
-                note.IsReminderRepeatly == IsReminderRepeatly && note.RepeatType == RepeatType;
+                note.IsReminderRepeatly == IsReminderRepeatly && note.RepeatType == RepeatType);
 
 
         QuickNoteItem note = new();
@@ -177,9 +177,10 @@ namespace QuickNote.ViewModels
             IsLoading = false;
         }
 
-        public async Task Back()
+        [RelayCommand]
+        async Task Back()
         {
-            if (CompareNoteValues() == false)
+            if (IsValuesChanged())
             {
                 var answer = await Shell.Current.DisplayAlert("Attention", "There are unsaved changes\nAre you sure to leave?", "Yes", "No");
                 if (answer)
@@ -187,10 +188,6 @@ namespace QuickNote.ViewModels
             }
             else
                 await Shell.Current.GoToAsync("..", true);
-        }
-
-        [RelayCommand]
-        void GoBack() => Back();
-        
+        }        
     }
 }

@@ -25,8 +25,11 @@ public partial class NoteOptions : Popup
         ReminderTime.IsVisible = !ReminderTime.IsVisible;
         RepeatLabel.IsVisible = !RepeatLabel.IsVisible;
         RepeatToggle.IsVisible = !RepeatToggle.IsVisible;
-        //RepeatToggle.IsToggled = false;
-        //RepeatType.IsVisible = false;
+        if (!ReminderToggle.IsToggled)
+        {
+            RepeatToggle.IsToggled = false;
+            RepeatType.IsVisible = false;
+        }
     }
 
     private async void Apply_Clicked(object sender, EventArgs e)

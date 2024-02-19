@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using QuickNote.ViewModels;
+//using Com.Xamarin.Textcounter;
 
 namespace QuickNote;
 
@@ -17,11 +18,13 @@ public partial class NoteDetails : ContentPage
     {
         base.OnAppearing();
         await _noteDetailsVM.GetNote();
+        //if (!string.IsNullOrEmpty(_noteDetailsVM.Description))
+        //    await CommunityToolkit.Maui.Alerts.Toast.Make(TextCounter.NumVowels(_noteDetailsVM.Description).ToString(), CommunityToolkit.Maui.Core.ToastDuration.Long).Show();
     }
 
     protected override bool OnBackButtonPressed()
     {
-        Dispatcher.Dispatch(async () => await _noteDetailsVM.Back());
+        Dispatcher.Dispatch(async () => await _noteDetailsVM.BackCommand.ExecuteAsync(null));
         return true;
     }
 
